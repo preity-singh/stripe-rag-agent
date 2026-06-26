@@ -1,0 +1,17 @@
+https://docs.stripe.com/get-started/use-cases.md
+https://docs.stripe.com/payments/payment-intents.md
+https://docs.stripe.com/webhooks.md
+https://docs.stripe.com/webhooks/handling-payment-events.md
+https://docs.stripe.com/billing/subscriptions/overview.md
+https://docs.stripe.com/billing/subscriptions/design-an-integration.md
+https://docs.stripe.com/billing/subscriptions/cancel.md
+https://docs.stripe.com/billing/customer.md
+https://docs.stripe.com/invoicing/overview.md
+https://docs.stripe.com/invoicing/integration.md
+https://docs.stripe.com/billing/testing.md
+https://docs.stripe.com/error-codes.md
+https://docs.stripe.com/keys.md
+https://docs.stripe.com/declines.md
+https://docs.stripe.com/refunds.md
+https://docs.stripe.com/disputes/how-disputes-work.md
+https://docs.stripe.com/testing.md
