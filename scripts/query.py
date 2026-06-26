@@ -27,31 +27,38 @@ Be concise, clear, and accurate."""
 #     print(f"{doc[:200]}...")
 
 # calls claude api to get answer from model using user query and relevant chunks from ChromaDB
-def get_answer(user_query, results):
+def get_answer(user_query, results, conversation_history):
     context = "\n\n".join(
         f"[Source: {metadata['source']}]\n{doc}" for doc, 
         metadata in zip(results['documents'][0], results['metadatas'][0])
     )
 
     user_message = f"Here is the relevant documentation:\n\n{context}\n\nQuestion: {user_query}"
-
-    response = client.messages.create(
-    model="claude-haiku-4-5",
-    max_tokens=1024,
-    system=SYSTEM_PROMPT,
-    messages=[{"role": "user", "content": user_message}]
-    )
-
-    return response.content[0].text
-
-user_query = input("Enter your Stripe query: ") # Get user query from input
-query_embedding = model.encode(user_query) # Generate embedding for the user query
-
-# semantic search in ChromaDB 
-results = collection.query(
-    query_embeddings=[query_embedding.tolist()],
-    n_results=5
-)
     
-answer = get_answer(user_query, results)
-print(answer)
+    conversation_history.append({"role": "user", "content": user_message})
+    response = client.messages.create(
+        model="claude-haiku-4-5",
+        max_tokens=1024,
+        system=SYSTEM_PROMPT,
+        messages=conversation_history
+    )
+    answer = response.content[0].text
+    conversation_history.append({"role": "assistant", "content": answer})
+    return answer
+
+conversation_history = []  # Initialize conversation history
+while True:
+    user_query = input("Enter your Stripe query: ")
+    if user_query.lower() == "quit":
+        break
+
+    query_embedding = model.encode(user_query) # Generate embedding for the user query
+
+    # semantic search in ChromaDB 
+    results = collection.query(
+        query_embeddings=[query_embedding.tolist()],
+        n_results=5
+    )
+        
+    answer = get_answer(user_query, results, conversation_history)
+    print(answer)
