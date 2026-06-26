@@ -5,6 +5,7 @@ import chromadb
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
 chroma_client = chromadb.PersistentClient(path="./chroma_db")
+
 # TODO: Remove this delete logic later - only needed during development to avoid "already exists" errors
 try:
     chroma_client.delete_collection(name="stripe_docs")
