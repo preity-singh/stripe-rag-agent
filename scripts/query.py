@@ -1,3 +1,5 @@
+import streamlit as st
+
 from dotenv import load_dotenv
 load_dotenv()  
 
@@ -46,19 +48,22 @@ def get_answer(user_query, results, conversation_history):
     conversation_history.append({"role": "assistant", "content": answer})
     return answer
 
-conversation_history = []  # Initialize conversation history
-while True:
-    user_query = input("Enter your Stripe query: ")
-    if user_query.lower() == "quit":
-        break
+if "conversation_history" not in st.session_state:
+    st.session_state.conversation_history = []
 
-    query_embedding = model.encode(user_query) # Generate embedding for the user query
+if __name__ == "__main__": 
+    while True:
+        user_query = input("Enter your Stripe query: ")
+        if user_query.lower() == "quit":
+            break
 
-    # semantic search in ChromaDB 
-    results = collection.query(
-        query_embeddings=[query_embedding.tolist()],
-        n_results=5
-    )
-        
-    answer = get_answer(user_query, results, conversation_history)
-    print(answer)
+        query_embedding = model.encode(user_query) # Generate embedding for the user query
+
+        # semantic search in ChromaDB 
+        results = collection.query(
+            query_embeddings=[query_embedding.tolist()],
+            n_results=5
+        )
+            
+        answer = get_answer(user_query, results, st.session_state.conversation_history)
+        print(answer)
