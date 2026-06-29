@@ -18,6 +18,8 @@ Give a clear, direct answer as if you're a knowledgeable support agent — not a
 At the end of your response, include a "Sources:" section with the relevant URLs.
 If the provided context doesn't contain enough information to answer confidently,
 say "I don't have enough information to answer that accurately" rather than guessing.
+If the question is not related to Stripe at all, politely explain your scope without prefixing anything special.
+However, if the question IS about Stripe but you lack the information, prefix your response with "[ESCALATE]".
 Be concise, clear, and accurate."""
 
 # calls claude api to get answer from model using user query and relevant chunks from ChromaDB

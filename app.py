@@ -26,12 +26,18 @@ if query:
     )
     # call get_answer
     answer = get_answer(query, results, st.session_state.conversation_history)
+
+    # check for escalation flag
+    should_escalate = answer.startswith("[ESCALATE]")
+    if should_escalate:
+        answer = answer.replace("[ESCALATE]", "").strip()
+
     # append to session state
     st.session_state.messages.append(("user", query))
     st.session_state.messages.append(("assistant", answer))
 
-    # ticket creation logic 
-    if "I don't have enough information" in answer:
+    # ticket creation logic - only for Stripe-related questions that need escalation
+    if should_escalate:
         create_notion_ticket(query)
         st.session_state.messages.append(("assistant", "A support ticket has been created for your query. Our team will get back to you shortly."))
 
