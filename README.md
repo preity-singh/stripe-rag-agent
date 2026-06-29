@@ -12,9 +12,7 @@ Unanswerable questions automatically escalate to a Notion support ticket.
 
 ### Multi-turn Conversation with Memory
 ![Question](assets/valid-question-1.png)
-
 ![Follow-up with Memory](assets/valid-question-2.png)
-
 ![Source Citations](assets/valid-question-3.png)
 
 ### Handling Non-Stripe Questions
