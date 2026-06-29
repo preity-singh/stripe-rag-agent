@@ -17,6 +17,9 @@ Unanswerable questions automatically escalate to a Notion support ticket.
 
 ![Source Citations](assets/valid-question-#3.png)
 
+### Handling Non-Stripe Questions
+![Non-Stripe Question Handling](assets/Weather.png)
+
 ### Automatic Ticket Escalation
 ![Ticket Escalation](assets/ChatbotTicketEscalation.png)
 ![Notion Ticket](assets/NotionTicket.png)
