@@ -1,5 +1,6 @@
 import streamlit as st
 from scripts.query import get_answer, collection, model
+from scripts.notion_ticket import create_notion_ticket
 
 if "conversation_history" not in st.session_state:
     st.session_state.conversation_history = []
@@ -28,5 +29,10 @@ if query:
     # append to session state
     st.session_state.messages.append(("user", query))
     st.session_state.messages.append(("assistant", answer))
-    st.rerun()
 
+    # ticket creation logic 
+    if "I don't have enough information" in answer:
+        create_notion_ticket(query)
+        st.session_state.messages.append(("assistant", "A support ticket has been created for your query. Our team will get back to you shortly."))
+
+    st.rerun()

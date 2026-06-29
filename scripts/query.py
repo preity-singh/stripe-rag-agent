@@ -1,5 +1,3 @@
-import streamlit as st
-
 from dotenv import load_dotenv
 load_dotenv()  
 
@@ -22,12 +20,6 @@ If the provided context doesn't contain enough information to answer confidently
 say "I don't have enough information to answer that accurately" rather than guessing.
 Be concise, clear, and accurate."""
 
-# dictionary containing top 5 relevant chunks and their metadata 
-# for i, (doc, metadata) in enumerate(zip(results['documents'][0], results['metadatas'][0])):
-#     print(f"\n--- Chunk {i+1} ---")
-#     print(f"Source: {metadata['source']}")
-#     print(f"{doc[:200]}...")
-
 # calls claude api to get answer from model using user query and relevant chunks from ChromaDB
 def get_answer(user_query, results, conversation_history):
     context = "\n\n".join(
@@ -48,22 +40,17 @@ def get_answer(user_query, results, conversation_history):
     conversation_history.append({"role": "assistant", "content": answer})
     return answer
 
-if "conversation_history" not in st.session_state:
-    st.session_state.conversation_history = []
-
 if __name__ == "__main__": 
+    conversation_history = []  # Initialize conversation history for the CLI
     while True:
         user_query = input("Enter your Stripe query: ")
         if user_query.lower() == "quit":
             break
-
         query_embedding = model.encode(user_query) # Generate embedding for the user query
-
         # semantic search in ChromaDB 
         results = collection.query(
             query_embeddings=[query_embedding.tolist()],
             n_results=5
-        )
-            
-        answer = get_answer(user_query, results, st.session_state.conversation_history)
+        )         
+        answer = get_answer(user_query, results, conversation_history)
         print(answer)
