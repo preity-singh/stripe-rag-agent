@@ -11,11 +11,11 @@ Unanswerable questions automatically escalate to a Notion support ticket.
 ![Stripe Support Agent Chat](assets/Chatbot!.png)
 
 ### Multi-turn Conversation with Memory
-![Question](assets/Question%20(valid-question-#1).png)
+![Question](assets/valid-question-#1.png)
 
-![Follow-up with Memory](assets/Memory%20(valid-question-#2).png)
+![Follow-up with Memory](assets/valid-question-#2.png)
 
-![Source Citations](assets/Sources%20(valid-question-#3).png)
+![Source Citations](assets/valid-question-#3.png)
 
 ### Automatic Ticket Escalation
 ![Ticket Escalation](assets/ChatbotTicketEscalation.png)
