@@ -1,18 +1,15 @@
 import requests
 from sentence_transformers import SentenceTransformer
-import chromadb
+from pinecone import Pinecone
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
-
-# TODO: Remove this delete logic later - only needed during development to avoid "already exists" errors
-try:
-    chroma_client.delete_collection(name="stripe_docs")
-except:
-    pass
-
-collection = chroma_client.create_collection(name="stripe_docs")
+pc = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
+index = pc.Index(os.getenv('PINECONE_INDEX_NAME'))
 
 URLS= [
     "https://docs.stripe.com/payments/balances.md",
@@ -67,13 +64,19 @@ for url in URLS:
         print(f"{url} → {len(chunks)} chunks")
         # print(f"Total chunks: {len(all_chunks)}") # verify chunk_text works
 
+vectors_to_upsert = []
 for i, (chunk, url) in enumerate(all_chunks):
     embedding = model.encode(chunk) # generate embedding for each chunk
-    collection.add( # add the chunk and its embedding to the ChromaDB collection
-        ids=[f"chunk_{i}"], 
-        documents=[chunk], 
-        metadatas=[{"source": url}], 
-        embeddings=[embedding.tolist()]
-    )
+    vectors_to_upsert.append({
+        "id": f"chunk_{i}",
+        "values": embedding.tolist(),
+        "metadata": {"source": url, "text": chunk}
+    })
 
-print(f"Done. {collection.count()} chunks stored in Chroma.") # verify embeddings are stored in ChromaDB
+# Upsert in batches of 100 (Pinecone best practice)
+batch_size = 100
+for i in range(0, len(vectors_to_upsert), batch_size):
+    batch = vectors_to_upsert[i:i + batch_size]
+    index.upsert(vectors=batch)
+
+print(f"Done. {len(all_chunks)} chunks stored in Pinecone.")

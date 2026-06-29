@@ -1,5 +1,5 @@
 import streamlit as st
-from scripts.query import get_answer, collection, model
+from scripts.query import get_answer, index, model
 from scripts.notion_ticket import create_notion_ticket
 
 if "conversation_history" not in st.session_state:
@@ -20,9 +20,10 @@ for role, message in st.session_state.messages:
 if query:
     # embed and retrieve
     query_embedding = model.encode(query)
-    results = collection.query(
-        query_embeddings=[query_embedding.tolist()],
-        n_results=5
+    results = index.query(
+        vector=query_embedding.tolist(),
+        top_k=5,
+        include_metadata=True
     )
     # call get_answer
     answer = get_answer(query, results, st.session_state.conversation_history)

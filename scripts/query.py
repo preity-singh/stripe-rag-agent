@@ -1,16 +1,17 @@
 from dotenv import load_dotenv
-load_dotenv()  
+load_dotenv()
 
 import anthropic
-client = anthropic.Anthropic() 
+client = anthropic.Anthropic()
 
 from sentence_transformers import SentenceTransformer
-import chromadb
+from pinecone import Pinecone
+import os
 
 model = SentenceTransformer('all-MiniLM-L6-v2')
 
-chroma_client = chromadb.PersistentClient(path="./chroma_db")
-collection = chroma_client.get_collection(name="stripe_docs")
+pc = Pinecone(api_key=os.getenv('PINECONE_API_KEY'))
+index = pc.Index(os.getenv('PINECONE_INDEX_NAME'))
 
 SYSTEM_PROMPT = """You are a helpful Stripe customer support agent.
 Use only the provided documentation excerpts to answer the user's question.
@@ -22,11 +23,11 @@ If the question is not related to Stripe at all, politely explain your scope wit
 However, if the question IS about Stripe but you lack the information, prefix your response with "[ESCALATE]".
 Be concise, clear, and accurate."""
 
-# calls claude api to get answer from model using user query and relevant chunks from ChromaDB
+# calls claude api to get answer from model using user query and relevant chunks from Pinecone
 def get_answer(user_query, results, conversation_history):
     context = "\n\n".join(
-        f"[Source: {metadata['source']}]\n{doc}" for doc, 
-        metadata in zip(results['documents'][0], results['metadatas'][0])
+        f"[Source: {match['metadata']['source']}]\n{match['metadata']['text']}"
+        for match in results['matches']
     )
 
     user_message = f"Here is the relevant documentation:\n\n{context}\n\nQuestion: {user_query}"
@@ -42,17 +43,18 @@ def get_answer(user_query, results, conversation_history):
     conversation_history.append({"role": "assistant", "content": answer})
     return answer
 
-if __name__ == "__main__": 
+if __name__ == "__main__":
     conversation_history = []  # Initialize conversation history for the CLI
     while True:
         user_query = input("Enter your Stripe query: ")
         if user_query.lower() == "quit":
             break
         query_embedding = model.encode(user_query) # Generate embedding for the user query
-        # semantic search in ChromaDB 
-        results = collection.query(
-            query_embeddings=[query_embedding.tolist()],
-            n_results=5
-        )         
+        # semantic search in Pinecone
+        results = index.query(
+            vector=query_embedding.tolist(),
+            top_k=5,
+            include_metadata=True
+        )
         answer = get_answer(user_query, results, conversation_history)
         print(answer)
