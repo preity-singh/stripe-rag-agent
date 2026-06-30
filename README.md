@@ -5,23 +5,6 @@ Ask questions about payments, webhooks, subscriptions, and billing —
 get answers grounded in real Stripe docs with source citations. 
 Unanswerable questions automatically escalate to a Notion support ticket.
 
-## Demo
-
-### Chat Interface
-![Stripe Support Agent Chat](assets/Chatbot!.png)
-
-### Multi-turn Conversation with Memory
-![Question](assets/valid-question-1.png)
-![Follow-up with Memory](assets/valid-question-2.png)
-![Source Citations](assets/valid-question-3.png)
-
-### Handling Non-Stripe Questions
-![Non-Stripe Question Handling](assets/Weather.png)
-
-### Automatic Ticket Escalation
-![Ticket Escalation](assets/ChatbotTicketEscalation.png)
-![Notion Ticket](assets/NotionTicket.png)
-
 ## The Problem
 
 Stripe's documentation is extensive and spread across dozens of pages. Finding 
@@ -49,6 +32,23 @@ appear there.
 When Claude can't answer confidently from the retrieved context, it says so 
 instead of guessing — and a Notion ticket is automatically created for human 
 follow-up.
+
+## Demo
+
+### Chat Interface
+![Stripe Support Agent Chat](assets/Chatbot!.png)
+
+### Multi-turn Conversation with Memory
+![Question](assets/valid-question-1.png)
+![Follow-up with Memory](assets/valid-question-2.png)
+![Source Citations](assets/valid-question-3.png)
+
+### Handling Non-Stripe Questions
+![Non-Stripe Question Handling](assets/Weather.png)
+
+### Automatic Ticket Escalation
+![Ticket Escalation](assets/ChatbotTicketEscalation.png)
+![Notion Ticket](assets/NotionTicket.png)
 
 ## Architecture
 
