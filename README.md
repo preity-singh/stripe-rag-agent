@@ -7,22 +7,17 @@ Unanswerable questions automatically escalate to a Notion support ticket.
 
 ## Demo
 
-### Chat Interface
-![Stripe Support Agent Chat](assets/Chatbot!.png)
-
 ### Multi-turn Conversation with Memory
-![Question](assets/valid-question-1.png)
+![Question](assets/SetupWebhooks.png)
 
-![Follow-up with Memory](assets/valid-question-2.png)
-
-![Source Citations](assets/valid-question-3.png)
+![Follow-up with Memory](assets/TestWebhooks.png)
 
 ### Handling Non-Stripe Questions
-![Non-Stripe Question Handling](assets/Weather.png)
+![Non-Stripe Question Handling](assets/IrrelevantQuestion.png)
 
 ### Automatic Ticket Escalation
-![Ticket Escalation](assets/ChatbotTicketEscalation.png)
-![Notion Ticket](assets/NotionTicket.png)
+![Ticket Escalation](assets/TicketEscalation.png)
+![Notion Ticket](assets/NotionTicket2.png)
 
 ## The Problem
 
