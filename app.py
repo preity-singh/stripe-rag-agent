@@ -1,4 +1,9 @@
+import os
 import streamlit as st
+
+for key, value in st.secrets.items():
+    os.environ[key] = value
+
 from scripts.query import get_answer, index, model
 from scripts.notion_ticket import create_notion_ticket
 
