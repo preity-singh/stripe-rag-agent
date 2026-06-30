@@ -15,15 +15,18 @@ st.markdown("""
     .main {
         background-color: #f8f9fa;
     }
-    .stChatMessage {
-        background-color: white;
+    /* User message bubble */
+    [data-testid="stChatMessageContent"] {
+        background-color: #f6f4ff;
         border-radius: 10px;
         padding: 15px;
-        margin: 10px 0;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    }
+    /* Assistant message bubble */
+    .stChatMessage[data-testid="chatAvatarIcon-assistant"] {
+        background-color: #ffffff;
     }
     .stSidebar {
-        background-color: #ffffff;
+        background-color: #f6f4ff;
     }
     h1 {
         color: #635bff;
@@ -46,19 +49,19 @@ st.markdown("""
     .counter-box {
         background: linear-gradient(135deg, #635bff 0%, #4f46e5 100%);
         color: white;
-        padding: 16px;
-        border-radius: 10px;
+        padding: 10px;
+        border-radius: 8px;
         text-align: center;
-        margin: 20px 0;
-        box-shadow: 0 4px 6px rgba(99, 91, 255, 0.2);
+        margin: 15px 0 10px 0;
+        box-shadow: 0 2px 4px rgba(99, 91, 255, 0.15);
     }
     .counter-number {
-        font-size: 2rem;
+        font-size: 1.3rem;
         font-weight: bold;
-        margin: 8px 0;
+        margin: 4px 0;
     }
     .counter-label {
-        font-size: 0.9rem;
+        font-size: 0.75rem;
         opacity: 0.9;
     }
     </style>
@@ -78,15 +81,6 @@ if "question_count" not in st.session_state:
 with st.sidebar:
     st.markdown("## 💳 Stripe Support Agent")
     st.markdown("Get instant answers from Stripe's official documentation.")
-
-    # Question counter
-    remaining = 10 - st.session_state.question_count
-    st.markdown(f"""
-        <div class="counter-box">
-            <div class="counter-label">Questions Remaining</div>
-            <div class="counter-number">{remaining}/10</div>
-        </div>
-    """, unsafe_allow_html=True)
 
     st.markdown("---")
 
@@ -111,6 +105,15 @@ with st.sidebar:
 
     st.markdown("---")
     st.markdown("💡 **Tip:** Ask follow-up questions — I remember our conversation!")
+
+    # Question counter at the bottom
+    remaining = 10 - st.session_state.question_count
+    st.markdown(f"""
+        <div class="counter-box">
+            <div class="counter-label">Questions Remaining</div>
+            <div class="counter-number">{remaining}/10</div>
+        </div>
+    """, unsafe_allow_html=True)
 
 # Main content
 st.title("Stripe Customer Support Agent")
