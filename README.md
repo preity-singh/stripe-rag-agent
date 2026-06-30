@@ -5,6 +5,11 @@ Ask questions about payments, webhooks, subscriptions, and billing —
 get answers grounded in real Stripe docs with source citations. 
 Unanswerable questions automatically escalate to a Notion support ticket.
 
+> **Note:** This `main` branch is the local development version (ChromaDB, no rate limiting). 
+> For the deployed, production-ready version — Pinecone, rate limiting, and a polished UI — 
+> check out the [`deploy` branch](https://github.com/preity-singh/stripe-rag-agent/tree/deploy) 
+> or try the live demo at [stripe-customer-support-agent.streamlit.app](https://stripe-customer-support-agent.streamlit.app).
+
 ## The Problem
 
 Stripe's documentation is extensive and spread across dozens of pages. Finding 
